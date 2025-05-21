@@ -1,7 +1,5 @@
-import Header from "./_components/Header";
-import Logo from "./_components/Logo";
-import Navigation from "./_components/Navigation";
 import "@/app/_styles/globals.css";
+import Header from "./_components/Header";
 
 import { Josefin_Sans } from "next/font/google";
 import { ReservationContextProvider } from "./_components/ReservationContext";

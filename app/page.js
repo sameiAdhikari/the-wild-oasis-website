@@ -1,5 +1,4 @@
 import Image from "next/image";
-import Navigation from "./_components/Navigation";
 import bg from "../public/bg.png";
 
 function page() {

@@ -1,8 +1,8 @@
 "use client";
 
 import { useOptimistic } from "react";
-import ReservationCard from "./ReservationCard";
 import { deleteBooking } from "../_lib/data-service";
+import ReservationCard from "./ReservationCard";
 
 function ReservationList({ bookings }) {
   const [optimisticState, optimisticDelete] = useOptimistic(
@@ -14,9 +14,6 @@ function ReservationList({ bookings }) {
 
   async function handleDelete(bookingId) {
     optimisticDelete(bookingId);
-    // await new Promise((res) => setTimeout(res, 5000)); it just wait for 5 second to perform a second line of code
-    // throw new Error();
-
     await deleteBooking(bookingId);
   }
   return (

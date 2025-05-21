@@ -1,19 +1,19 @@
 "use client";
 
 import { differenceInDays } from "date-fns";
+import { useFormStatus } from "react-dom";
 import { createBooking } from "../_lib/actions";
 import useReservationContext from "./ReservationContext";
-import { useFormState, useFormStatus } from "react-dom";
-import SpinnerMini from "./SpinnerMini";
 
 function ReservationForm({ cabin, user }) {
   const { range, resetRange } = useReservationContext();
   const { pending } = useFormStatus();
   const { maxCapacity, regularPrice, discount, id } = cabin;
-  const startDate = range.from;
-  const endDate = range.to;
+  const startDate = range?.from;
+  const endDate = range?.to;
   const numNights = differenceInDays(endDate, startDate);
   const cabinPrice = numNights * (regularPrice - discount);
+  console.log(pending);
 
   const data = {
     startDate,
@@ -82,12 +82,11 @@ function ReservationForm({ cabin, user }) {
 
         <div className="flex justify-end items-center gap-6">
           <p className="text-primary-300 text-base">Start by selecting dates</p>
-          {/* <p>{`Start: ${startDate}, End: ${endDate}`}</p> */}
           <button
-            disabled={!startDate || !endDate}
+            // disabled={!startDate || !endDate}
             className="bg-accent-500 px-8 py-4 text-primary-800 font-semibold hover:bg-accent-600 transition-all disabled:cursor-not-allowed disabled:bg-gray-500 disabled:text-gray-300"
           >
-            Reserve now
+            {pending ? "Reserving..." : "Reserve now"}
           </button>
         </div>
       </form>

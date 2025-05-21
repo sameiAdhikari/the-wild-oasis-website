@@ -3,7 +3,6 @@ import SelectCountry from "@/app/_components/SelectCountry";
 import UpdatePrifileForm from "@/app/_components/UpdatePrifileForm";
 import { auth } from "@/app/_lib/Auth";
 import { getGuest } from "@/app/_lib/data-service";
-import Image from "next/image";
 export const metadata = {
   title: "Profile",
 };

@@ -1,9 +1,9 @@
 "use server";
 import { revalidatePath } from "next/cache";
-import { auth, signIn, signOut } from "./Auth";
-import { deleteBooking, getBookings, updateGuest } from "./data-service";
-import { supabase } from "./supabase";
 import { redirect } from "next/navigation";
+import { auth, signIn, signOut } from "./Auth";
+import { getBookings } from "./data-service";
+import { supabase } from "./supabase";
 
 export async function signInAction() {
   await signIn("google", { redirectTo: "/account" });
@@ -45,6 +45,7 @@ export async function createBooking(data, formData) {
 
   const newBooking = {
     ...data,
+    guestId: session.user.guestId,
     numGuests: Number(formData.get("numGuests")),
     observations: formData.get("observations").slice(0.1),
     extrasPrice: 0,
@@ -80,23 +81,28 @@ export async function deleteReservation(bookingId) {
 }
 
 export async function updateBooking(formData) {
-  const inputData = {
-    numGuests: Number(formData.get("numGuests")),
-    observations: formData.get("observations").slice(0, 1000),
-  };
+  const bookingId = Number(formData.get("bookingId"));
+
   const session = await auth();
   if (!session) throw new Error("you must be logged in!");
 
   const data = await getBookings(session.user.guestId);
   const allId = data.map((data) => data.id);
-  const bookingId = Number(formData.get("bookingId"));
+
   if (!allId.includes(bookingId))
     throw new Error("you are not allowed to delete");
+
+  const inputData = {
+    numGuests: Number(formData.get("numGuests")),
+    observations: formData.get("observations").slice(0, 1000),
+  };
 
   const { error } = await supabase
     .from("bookings")
     .update(inputData)
-    .eq("id", bookingId);
+    .eq("id", bookingId)
+    .select()
+    .single();
   if (error) throw new Error("Error while updating booking");
 
   revalidatePath("/account/reservations");
