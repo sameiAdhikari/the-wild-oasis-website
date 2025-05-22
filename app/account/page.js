@@ -1,3 +1,4 @@
+import HomeAccount from "../_components/HomeAccount";
 import { auth } from "../_lib/Auth";
 
 export const metadata = {
@@ -6,13 +7,15 @@ export const metadata = {
 
 async function Page() {
   const session = await auth();
-
   const firstName = session.user.name.split(" ").at(0);
 
   return (
-    <h2 className="font-semibold text-2xl text-accent-400 mb-7">
-      welcome , {firstName} !
-    </h2>
+    <>
+      <h2 className="font-semibold text-2xl text-accent-400 mb-7">
+        welcome , {firstName} !
+      </h2>
+      <HomeAccount />
+    </>
   );
 }
 
