@@ -36,6 +36,7 @@ export async function updateGuestAction(formData) {
   if (error) throw new Error("Error while updating data");
 
   revalidatePath("/account/profile");
+  redirect("/account");
 }
 
 export async function createBooking(data, formData) {

@@ -17,10 +17,8 @@ async function HomeAccount() {
   return (
     <div>
       <div className="flex align-middle justify-between">
-        <p className="text-3xl mb-3 text-yellow-700">
-          {" "}
-          your history of reservations
-        </p>
+        <p className="text-3xl mb-3 text-yellow-700"></p> your history of
+        reservations
         {/* <FilterBooking /> */}
       </div>
       {bookings.map((booking) => (

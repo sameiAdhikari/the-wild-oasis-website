@@ -9,6 +9,7 @@ function ReservationForm({ cabin, user }) {
   const { range, resetRange } = useReservationContext();
   const { pending } = useFormStatus();
   const { maxCapacity, regularPrice, discount, id } = cabin;
+
   const startDate = range?.from;
   const endDate = range?.to;
   const numNights = differenceInDays(endDate, startDate);
@@ -81,12 +82,18 @@ function ReservationForm({ cabin, user }) {
 
         <div className="flex justify-end items-center gap-6">
           <p className="text-primary-300 text-base">Start by selecting dates</p>
-          <button
-            // disabled={!startDate || !endDate}
-            className="bg-accent-500 px-8 py-4 text-primary-800 font-semibold hover:bg-accent-600 transition-all disabled:cursor-not-allowed disabled:bg-gray-500 disabled:text-gray-300"
-          >
-            {pending ? "Reserving..." : "Reserve now"}
-          </button>
+          {startDate &&
+            endDate &&
+            range?.from?.getTime() !== range?.to?.getTime() && (
+              <button
+                // disabled={
+
+                // } // in date selector first click will add the value into range.from and range.to so this would be best way to disable
+                className="bg-accent-500 px-8 py-4 text-primary-800 font-semibold hover:bg-accent-600 transition-all disabled:cursor-not-allowed disabled:bg-gray-500 disabled:text-gray-300"
+              >
+                {pending ? "Reserving..." : "Reserve now"}
+              </button>
+            )}
         </div>
       </form>
     </div>

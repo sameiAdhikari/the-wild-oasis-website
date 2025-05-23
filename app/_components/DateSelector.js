@@ -22,9 +22,10 @@ function isAlreadyBooked(range, datesArr) {
 
 function DateSelector({ settings, cabin, bookedDates }) {
   const { range, setRange, resetRange } = useReservationContext();
-
   const { regularPrice, discount } = cabin;
-  const correctRange = isAlreadyBooked(range, bookedDates) ? {} : range;
+  const correctRange = isAlreadyBooked(range, bookedDates)
+    ? resetRange()
+    : range;
   const { minBookingLength, maxBookingLength } = settings;
   const numNights = differenceInDays(correctRange?.to, range?.from);
   const cabinPrice = numNights * (regularPrice - discount);
@@ -36,7 +37,7 @@ function DateSelector({ settings, cabin, bookedDates }) {
         mode="range"
         selected={correctRange}
         onSelect={setRange}
-        // min={minBookingLength + 1}
+        // min={minBookingLength + 1} //  they are not available in V8+
         // max={maxBookingLength}
         fromMonth={new Date()}
         fromDate={new Date()}
