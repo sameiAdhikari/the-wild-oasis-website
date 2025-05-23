@@ -1,13 +1,12 @@
 "use client";
 
 import { differenceInDays } from "date-fns";
-import { useFormStatus } from "react-dom";
 import { createBooking } from "../_lib/actions";
 import useReservationContext from "./ReservationContext";
+import ReserveButton from "./ReserveButton";
 
 function ReservationForm({ cabin, user }) {
   const { range, resetRange } = useReservationContext();
-  const { pending } = useFormStatus();
   const { maxCapacity, regularPrice, discount, id } = cabin;
 
   const startDate = range?.from;
@@ -23,6 +22,8 @@ function ReservationForm({ cabin, user }) {
     cabinId: id,
   };
   const bindData = createBooking.bind(null, data);
+
+  // console.log(pending);
 
   return (
     <div className="scale-[1.01]">
@@ -85,14 +86,7 @@ function ReservationForm({ cabin, user }) {
           {startDate &&
             endDate &&
             range?.from?.getTime() !== range?.to?.getTime() && (
-              <button
-                // disabled={
-
-                // } // in date selector first click will add the value into range.from and range.to so this would be best way to disable
-                className="bg-accent-500 px-8 py-4 text-primary-800 font-semibold hover:bg-accent-600 transition-all disabled:cursor-not-allowed disabled:bg-gray-500 disabled:text-gray-300"
-              >
-                {pending ? "Reserving..." : "Reserve now"}
-              </button>
+              <ReserveButton />
             )}
         </div>
       </form>
